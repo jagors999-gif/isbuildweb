@@ -216,10 +216,15 @@
             <span><b>Custom automation</b><small>Workflow or integration</small></span>
           </div>
         </div>
-        <form class="contact-form" id="projectForm">
+        <form class="contact-form" id="projectForm" action="https://formsubmit.co/isbuildweb@isbuildweb.com" method="POST">
+          <input type="hidden" name="_subject" value="New ISBuildWeb project enquiry">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_next" value="https://www.isbuildweb.com/thanks.html">
+          <input type="hidden" name="_url" value="https://www.isbuildweb.com/#contact">
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none">
           <div class="form-heading"><strong>Project enquiry</strong><span>Usually takes less than 2 minutes.</span></div>
           <label>What do you need?
-            <select id="projectType" required>
+            <select id="projectType" name="project_type" required>
               <option value="Website">A new website</option>
               <option value="Redesign">Website redesign</option>
               <option value="System">Booking / business system</option>
@@ -228,13 +233,13 @@
             </select>
           </label>
           <div class="form-two">
-            <label>Your name<input id="name" type="text" required placeholder="John Smith"></label>
-            <label>Email<input id="email" type="email" required placeholder="john@company.com"></label>
+            <label>Your name<input id="name" name="name" type="text" required placeholder="John Smith" autocomplete="name"></label>
+            <label>Email<input id="email" name="email" type="email" required placeholder="john@company.com" autocomplete="email"></label>
           </div>
-          <label>Company / website<input id="company" type="text" placeholder="Company name or current website"></label>
-          <label>Tell us a little about the project<textarea id="message" required rows="5" placeholder="What would you like built or improved?"></textarea></label>
-          <button class="btn primary submit" type="submit">Prepare my enquiry</button>
-          <small class="form-note">For the first launch, this prepares an email on your device. Direct form delivery will be connected with the business email setup.</small>
+          <label>Company / website<input id="company" name="company" type="text" placeholder="Company name or current website" autocomplete="organization"></label>
+          <label>Tell us a little about the project<textarea id="message" name="message" required rows="5" placeholder="What would you like built or improved?"></textarea></label>
+          <button class="btn primary submit" type="submit">Send enquiry</button>
+          <small class="form-note">Your enquiry will be sent directly to ISBuildWeb. We’ll reply to the email address you provide.</small>
         </form>
       </div>
     </section>
