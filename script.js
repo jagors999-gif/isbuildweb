@@ -11,14 +11,66 @@ if (menuBtn && nav) {
 document.getElementById('year').textContent = new Date().getFullYear();
 
 const projectForm = document.getElementById('projectForm');
-projectForm?.addEventListener('submit', (e) => {
+projectForm?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const type = document.getElementById('projectType').value;
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const company = document.getElementById('company').value.trim();
-  const message = document.getElementById('message').value.trim();
-  const subject = encodeURIComponent(`ISBuildWeb project enquiry — ${type}`);
-  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nCompany / website: ${company || 'Not provided'}\nProject type: ${type}\n\nProject details:\n${message}`);
-  window.location.href = `mailto:isbuildweb@isbuildweb.com?subject=${subject}&body=${body}`;
+
+  const submitBtn = projectForm.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending…';
+
+  const payload = {
+    name: document.getElementById('name').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    company: document.getElementById('company').value.trim() || 'Not provided',
+    project_type: document.getElementById('projectType').value,
+    message: document.getElementById('message').value.trim(),
+    _subject: `ISBuildWeb project enquiry — ${document.getElementById('projectType').value}`,
+    _template: 'table'
+  };
+
+  try {
+    const response = await fetch('https://formsubmit.co/ajax/isbuildweb@isbuildweb.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+    if (!response.ok || result.success === 'false' || result.success === false) {
+      throw new Error(result.message || 'Unable to send enquiry');
+    }
+
+    projectForm.reset();
+    submitBtn.textContent = 'Enquiry sent ✓';
+    submitBtn.classList.add('sent');
+
+    let status = projectForm.querySelector('.form-status');
+    if (!status) {
+      status = document.createElement('p');
+      status.className = 'form-status';
+      projectForm.appendChild(status);
+    }
+    status.textContent = 'Thank you — your enquiry has been sent. We’ll be in touch soon.';
+
+    setTimeout(() => {
+      submitBtn.textContent = originalText;
+      submitBtn.classList.remove('sent');
+      submitBtn.disabled = false;
+    }, 5000);
+  } catch (error) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
+
+    let status = projectForm.querySelector('.form-status');
+    if (!status) {
+      status = document.createElement('p');
+      status.className = 'form-status';
+      projectForm.appendChild(status);
+    }
+    status.textContent = 'Sorry — the enquiry could not be sent. Please email isbuildweb@isbuildweb.com directly.';
+  }
 });
