@@ -20,5 +20,5 @@ projectForm?.addEventListener('submit', (e) => {
   const message = document.getElementById('message').value.trim();
   const subject = encodeURIComponent(`ISBuildWeb project enquiry — ${type}`);
   const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nCompany / website: ${company || 'Not provided'}\nProject type: ${type}\n\nProject details:\n${message}`);
-  window.location.href = `mailto:hello@isbuildweb.com?subject=${subject}&body=${body}`;
+  window.location.href = `mailto:isbuildweb@isbuildweb.com?subject=${subject}&body=${body}`;
 });
