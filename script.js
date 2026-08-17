@@ -11,11 +11,18 @@ if (menuBtn && nav) {
 document.getElementById('year').textContent = new Date().getFullYear();
 
 const projectForm = document.getElementById('projectForm');
+if (projectForm) {
+  const submitBtn = projectForm.querySelector('button[type="submit"]');
+  const formNote = projectForm.querySelector('.form-note');
+  if (submitBtn) submitBtn.textContent = 'Send enquiry';
+  if (formNote) formNote.textContent = 'Your enquiry is sent securely to ISBuildWeb. We’ll reply to the email address you provide.';
+}
+
 projectForm?.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const submitBtn = projectForm.querySelector('button[type="submit"]');
-  const originalText = submitBtn.textContent;
+  const originalText = 'Send enquiry';
   submitBtn.disabled = true;
   submitBtn.textContent = 'Sending…';
 
